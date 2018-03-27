@@ -13,6 +13,7 @@
 	<build_depend>moveit_task_constructor_msgs</build_depend>
 	<build_depend>moveit_task_constructor_core</build_depend>
 	<build_depend>moveit_ros_visualization</build_depend>
+	<build_depend>agni_tf_tools</build_depend>
 	<build_depend>roscpp</build_depend>
 	<build_depend>rviz</build_depend>
 
@@ -20,6 +21,7 @@
 	<run_depend>moveit_task_constructor_msgs</run_depend>
 	<run_depend>moveit_task_constructor_core</run_depend>
 	<run_depend>moveit_ros_visualization</run_depend>
+	<run_depend>agni_tf_tools</run_depend>
 	<run_depend>roscpp</run_depend>
 	<run_depend>rviz</run_depend>
 

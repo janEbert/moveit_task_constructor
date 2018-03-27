@@ -49,7 +49,7 @@ namespace moveit_rviz_plugin {
 
 static rviz::StringProperty* stringFactory(const QString& name, mtc::Property& mtc_prop) {
 	std::string value;
-	if (mtc_prop.defined())
+	if (!mtc_prop.value().empty())
 		value = boost::any_cast<std::string>(mtc_prop.value());
 	rviz::StringProperty* rviz_prop = new rviz::StringProperty(name, QString::fromStdString(value),
 	                                                           QString::fromStdString(mtc_prop.description()));
@@ -59,7 +59,7 @@ static rviz::StringProperty* stringFactory(const QString& name, mtc::Property& m
 }
 template <typename T>
 static rviz::FloatProperty* floatFactory(const QString& name, mtc::Property& mtc_prop) {
-	T value = mtc_prop.defined() ? boost::any_cast<T>(mtc_prop.value()) : T();
+	T value = !mtc_prop.value().empty() ? boost::any_cast<T>(mtc_prop.value()) : T();
 	rviz::FloatProperty* rviz_prop = new rviz::FloatProperty(name, value, QString::fromStdString(mtc_prop.description()));
 	QObject::connect(rviz_prop, &rviz::FloatProperty::changed,
 	                 [rviz_prop, &mtc_prop]() {mtc_prop.setValue(rviz_prop->getFloat());});

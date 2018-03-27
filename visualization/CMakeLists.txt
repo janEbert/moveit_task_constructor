@@ -42,6 +42,7 @@ catkin_package(
 	CATKIN_DEPENDS
 		moveit_core
 		moveit_task_constructor_msgs
+		agni_tf_tools
 		roscpp
 		rviz
 )
