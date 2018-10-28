@@ -20,13 +20,13 @@ class PropertyConverterRegistry {
 	typedef std::map<bp::type_info, Entry> RegistryMap;
 	RegistryMap types_;
 	// map from ros-msg-names to entry in types_
-	typedef std::map<std::string, RegistryMap::iterator> TypeNameMap;
-	TypeNameMap msg_names_;
+	typedef std::map<std::string, RegistryMap::iterator> RosMsgTypeNameMap;
+	RosMsgTypeNameMap msg_names_;
 
 public:
 	PropertyConverterRegistry();
 
-	inline bool insert(const bp::type_info& type_info,
+	inline bool insert(const bp::type_info& type_info, const std::string& ros_msg_name,
 	                   PropertyConverterBase::to_python_converter_function to,
 	                   PropertyConverterBase::from_python_converter_function from);
 
@@ -47,13 +47,14 @@ PropertyConverterRegistry::PropertyConverterRegistry() {
 	PropertyConverter<std::string>();
 }
 
-bool PropertyConverterRegistry::insert(const bp::type_info& type_info, PropertyConverterBase::to_python_converter_function to, PropertyConverterBase::from_python_converter_function from)
+bool PropertyConverterRegistry::insert(const bp::type_info& type_info, const std::string& ros_msg_name,
+                                       PropertyConverterBase::to_python_converter_function to,
+                                       PropertyConverterBase::from_python_converter_function from)
 {
 	auto it_inserted = types_.insert(std::make_pair(type_info, Entry {to, from}));
 	if (!it_inserted.second)
 		return false;
 
-	const std::string& ros_msg_name = rosMsgName(type_info);
 	if (!ros_msg_name.empty())  // is this a ROS msg type?
 		msg_names_.insert(std::make_pair(ros_msg_name, it_inserted.first));
 
@@ -101,9 +102,11 @@ boost::any PropertyConverterRegistry::fromPython(const boost::python::object& bp
 
 } // end anonymous namespace
 
-bool PropertyConverterBase::insert(const bp::type_info& type_info, moveit::python::PropertyConverterBase::to_python_converter_function to, moveit::python::PropertyConverterBase::from_python_converter_function from)
+bool PropertyConverterBase::insert(const bp::type_info& type_info, const std::string& ros_msg_name,
+                                   moveit::python::PropertyConverterBase::to_python_converter_function to,
+                                   moveit::python::PropertyConverterBase::from_python_converter_function from)
 {
-	return registry_singleton_.insert(type_info, to, from);
+	return registry_singleton_.insert(type_info, ros_msg_name, to, from);
 }
 
 namespace {
