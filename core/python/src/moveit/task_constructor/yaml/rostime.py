@@ -5,7 +5,7 @@
 properties to YAML and loading them later.
 """
 
-from __future__ import print_function, unicode_literals
+from __future__ import print_function
 
 __all__ = ['toyaml', 'fromyaml']
 __author__ = 'Jan Ebert'
@@ -16,7 +16,7 @@ from yaml import add_multi_representer, add_multi_constructor
 from moveit.task_constructor.yaml import utils
 
 
-TAG_PREFIX = 'ROSTime.'
+TAG_PREFIX = u'ROSTime.'
 """How to prefix ROS times for the multi constructor.
 
 Arbitrary; but changing this value will break compatibility.

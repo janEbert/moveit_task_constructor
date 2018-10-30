@@ -5,8 +5,6 @@
 properties to YAML and loading them later.
 """
 
-from __future__ import unicode_literals
-
 __all__ = ['toyaml', 'fromyaml']
 __author__ = 'Jan Ebert'
 
@@ -20,7 +18,7 @@ from moveit.task_constructor.yaml import rostime
 from moveit.task_constructor.yaml import utils
 
 
-TAG_PREFIX = 'ROSMsg/'
+TAG_PREFIX = u'ROSMsg/'
 """How to prefix ROS messages for the multi constructor.
 
 Arbitrary; but changing this value will break compatibility.
