@@ -33,8 +33,6 @@ def _dump_and_reconstruct(test, orig_obj, verbose=None):
         verbose = test.verbose
 
     yml = toyaml(orig_obj)
-    with open('tmptest_ly.txt', 'w') as f:
-        f.write(yml)
     if verbose:
         print(yml)
 
