@@ -51,6 +51,7 @@ public:
 	typedef std::unique_ptr<ContainerBase> pointer;
 
 	size_t numChildren() const;
+	const std::list<Stage::pointer>& children() const;
 
 	typedef std::function<bool(const Stage&, int depth)> StageCallback;
 	/// traverse direct children of this container, calling the callback for each of them

@@ -155,6 +155,11 @@ size_t ContainerBase::numChildren() const
 	return pimpl()->children().size();
 }
 
+const std::list<Stage::pointer>& ContainerBase::children() const
+{
+	return pimpl()->children();
+}
+
 bool ContainerBase::traverseChildren(const ContainerBase::StageCallback &processor) const
 {
 	return pimpl()->traverseStages(processor, 0, 1);
