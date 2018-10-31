@@ -91,6 +91,13 @@ void Stage_setForwardedProperties(Stage& self, const bp::list& names) {
 }
 
 
+bp::list ContainerBase_children(ContainerBase& self) {
+	bp::list l;
+	for (const Stage::pointer& stage : self.children())
+		l.append(stage);
+	return l;
+}
+
 void ContainerBase_insert(ContainerBase& self, std::auto_ptr<Stage> stage, int before = -1) {
 	self.insert(std::unique_ptr<Stage>{stage.release()}, before);
 }
@@ -186,6 +193,7 @@ void export_core()
 
 	bp::class_<ContainerBase, std::auto_ptr<ContainerBase>, bp::bases<Stage>, boost::noncopyable>
 	      ("ContainerBase", bp::no_init)
+	      .def("children", &ContainerBase_children)
 	      .def("insert", &ContainerBase_insert, ContainerBase_insert_overloads())
 	      .def("clear", &ContainerBase::clear)
 	      ;
