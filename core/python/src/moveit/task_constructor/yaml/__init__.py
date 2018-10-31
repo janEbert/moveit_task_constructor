@@ -2,6 +2,9 @@
 convenience functions.
 """
 
+__all__ = ['toyaml', 'tofile', 'fromyaml']
+__author__ = 'Jan Ebert'
+
 from yaml import dump, load
 
 import rosmsg

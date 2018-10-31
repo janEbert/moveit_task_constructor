@@ -7,7 +7,6 @@ properties to YAML and loading them later.
 
 from __future__ import print_function
 
-__all__ = ['toyaml', 'fromyaml']
 __author__ = 'Jan Ebert'
 
 from genpy import rostime
@@ -24,11 +23,17 @@ Arbitrary; but changing this value will break compatibility.
 
 
 def _represent_rostime(dumper, rostime_):
+    """Return a ROS time in YAML format.
+
+    Used as a PyYAML `multi_representer` for the base class
+    `genpy.rostime.TVal`.
+    """
     return dumper.represent_mapping(TAG_PREFIX + type(rostime_).__name__,
             {'secs': rostime_.secs, 'nsecs': rostime_.nsecs})
 
 
 def _construct_rostime(loader, tag_suffix, node):
+    """Construct a ROS time from the given PyYAML node."""
     cls = getattr(rostime, tag_suffix)
     args = loader.construct_mapping(node)
     return cls(**args)

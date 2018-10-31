@@ -5,7 +5,6 @@
 properties to YAML and loading them later.
 """
 
-__all__ = ['toyaml', 'fromyaml']
 __author__ = 'Jan Ebert'
 
 import __builtin__

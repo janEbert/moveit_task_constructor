@@ -5,7 +5,6 @@
 to YAML and loading them later.
 """
 
-__all__ = ['toyaml', 'fromyaml']
 __author__ = 'Jan Ebert'
 
 from yaml import add_multi_representer, add_multi_constructor
