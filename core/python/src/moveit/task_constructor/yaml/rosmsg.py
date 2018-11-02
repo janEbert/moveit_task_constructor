@@ -15,6 +15,8 @@ from yaml import add_multi_representer, add_multi_constructor
 
 from moveit.task_constructor.yaml import utils
 
+BASE_CLASS = Message
+"""Base class to use for the multi representer."""
 
 TAG_PREFIX = u'ROSMsg/'
 """How to prefix ROS messages for the multi constructor.
@@ -26,8 +28,8 @@ Arbitrary; but changing this value will break compatibility.
 def _represent_msg(dumper, msg):
     """Return a ROS message in YAML format.
 
-    Used as a PyYAML `multi_representer` for the base class
-    `genpy.Message`.
+    Used as a PyYAML `multi_representer` for the base class given by
+    `BASE_CLASS`.
     """
     return dumper.represent_mapping(TAG_PREFIX + msg._type,
             {name: getattr(msg, name) for name in msg.__slots__})
@@ -57,6 +59,6 @@ def _construct_msg(loader, tag_suffix, node):
     return msg
 
 
-add_multi_representer(Message, _represent_msg, Dumper=utils.Dumper)
+add_multi_representer(BASE_CLASS, _represent_msg, Dumper=utils.Dumper)
 add_multi_constructor(TAG_PREFIX, _construct_msg, Loader=utils.Loader)
 
