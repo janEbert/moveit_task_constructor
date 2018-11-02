@@ -49,7 +49,7 @@ def _construct_stage(loader, tag_suffix, node):
     attributes = loader.construct_mapping(node)
     stage.name = attributes['name']
     # set stage properties
-    utils.attributes_from_dict(stage, attributes['properties'], skip_none=True)
+    utils.properties_from_dict(stage, attributes['properties'], skip_none=True)
     return stage
 
 

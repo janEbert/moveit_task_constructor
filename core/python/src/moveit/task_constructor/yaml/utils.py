@@ -77,6 +77,19 @@ def attributes_from_dict(obj, dict_, skip_none=False):
             setattr(obj, name, value)
 
 
+def properties_from_dict(obj, dict_, skip_none=False):
+    """Set the given object's `PropertyMap` corresponding to the names
+    and values contained in the given dictionary.
+
+    This is used instead of `attributes_from_dict` to prevent naming
+    conflicts between an object's attributes and its properties.
+    Optionally skip `None`-values.
+    """
+    for name, value in iterdict(dict_):
+        if not skip_none or value is not None:
+            obj.properties[name] = value
+
+
 pyge3 = None
 """Whether the user's Python version is greater than or equal to 3."""
 
