@@ -33,7 +33,11 @@ def _represent_rostime(dumper, rostime_):
 
 
 def _construct_rostime(loader, tag_suffix, node):
-    """Construct a ROS time from the given PyYAML node."""
+    """Construct a ROS time from the given PyYAML node.
+
+    Used as a PyYAML `multi_constructor` for the tag prefix given by
+    `TAG_PREFIX`.
+    """
     cls = getattr(rostime, tag_suffix)
     args = loader.construct_mapping(node)
     return cls(**args)

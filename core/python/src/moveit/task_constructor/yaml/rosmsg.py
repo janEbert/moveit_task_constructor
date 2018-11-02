@@ -9,11 +9,10 @@ __author__ = 'Jan Ebert'
 
 import __builtin__
 
-from genpy import Message
 import roslib.message
+from genpy import Message
 from yaml import add_multi_representer, add_multi_constructor
 
-from moveit.task_constructor.yaml import rostime
 from moveit.task_constructor.yaml import utils
 
 
@@ -35,7 +34,11 @@ def _represent_msg(dumper, msg):
 
 
 def _construct_msg(loader, tag_suffix, node):
-    """Construct a ROS message from the given PyYAML node."""
+    """Construct a ROS message from the given PyYAML node.
+
+    Used as a PyYAML `multi_constructor` for the tag prefix given by
+    `TAG_PREFIX`.
+    """
     # from rostopic.create_publisher()
     # tag_suffix like: 'moveit_task_constructor_msgs/Property'
 

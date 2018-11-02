@@ -9,9 +9,8 @@ __author__ = 'Jan Ebert'
 
 from yaml import add_multi_representer, add_multi_constructor
 
-from moveit.task_constructor import stages
 from moveit.task_constructor import core
-from moveit.task_constructor.yaml import rosmsg
+from moveit.task_constructor import stages
 from moveit.task_constructor.yaml import utils
 
 
@@ -33,7 +32,11 @@ def _represent_stage(dumper, stage):
 
 
 def _construct_stage(loader, tag_suffix, node):
-    """Construct a stage from the given PyYAML node."""
+    """Construct a stage from the given PyYAML node.
+
+    Used as a PyYAML `multi_constructor` for the tag prefix given by
+    `TAG_PREFIX`.
+    """
     try:
         stage_class = getattr(stages, tag_suffix)
     except AttributeError as ex:
