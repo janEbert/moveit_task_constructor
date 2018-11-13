@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(moveit_task_constructor_core)
 
+find_package(Boost REQUIRED COMPONENTS regex)
+
 find_package(catkin REQUIRED COMPONENTS
 	eigen_conversions
 	geometry_msgs
@@ -9,6 +11,8 @@ find_package(catkin REQUIRED COMPONENTS
 	moveit_ros_planning_interface
 	moveit_task_constructor_msgs
 	roscpp
+	ros_type_introspection
+	topic_tools
 	visualization_msgs
 	rviz_marker_tools
 )
