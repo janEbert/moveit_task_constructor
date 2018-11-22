@@ -3,8 +3,8 @@
 
 """This module supports tests for YAML conversion and deconversion.
 
-Each class has a name (in plural) and verbosity attribute which are used
-to generate error messages.
+Each class has a name (in plural), verbosity and ``to_file`` attribute
+which are used to generate error messages.
 """
 
 from __future__ import print_function
@@ -20,7 +20,7 @@ from moveit.task_constructor.yaml import rosmsg, stage
 from moveit.task_constructor import core, stages
 
 
-def _dump_and_reconstruct(test, orig_obj, verbose=None):
+def _dump_and_reconstruct(test, orig_obj, verbose=None, to_file=False):
     """Dump and reconstruct an object, then test whether the pre- and
     post-conversion objects differ.
 
@@ -31,8 +31,13 @@ def _dump_and_reconstruct(test, orig_obj, verbose=None):
                 'unittest.TestCase')
     if verbose is None:
         verbose = test.verbose
+    if to_file is None:
+        to_file = test.to_file
 
     yml = toyaml(orig_obj)
+    if to_file:
+        with open('{}.yml'.format(orig_obj.__class__.__name__), 'w') as f:
+            f.write(yml)
     if verbose:
         print(yml)
 
@@ -65,6 +70,7 @@ class TestMsgs(unittest.TestCase):
         super(TestMsgs, self).__init__(*args, **kwargs)
         self.name = 'Messages'
         self.verbose = False
+        self.to_file = False
 
     def test_JointConstraint(self):
         _dump_and_reconstruct(self, JointConstraint('test', 1, 2, 3, 4))
@@ -78,6 +84,7 @@ class TestStages(unittest.TestCase):
         super(TestStages, self).__init__(*args, **kwargs)
         self.name = 'Stages'
         self.verbose = False
+        self.to_file = False
 
     def test_FixedState(self):
         _dump_and_reconstruct(self, stages.FixedState('fixed'))
