@@ -4,6 +4,8 @@ set(MOVEIT_LIB_NAME motion_planning_tasks_properties)
 
 set(SOURCES
 	property_factory.cpp
+	stage_factories.cpp
+
 	frame_selector.cpp
 	move_group_selector.cpp
 	pose_stamped_selector.cpp
