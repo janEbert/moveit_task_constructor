@@ -14,7 +14,7 @@ namespace moveit_rviz_plugin
 
 rviz::Property* createFrameSelector(const QString& name,
                                     moveit::task_constructor::Property& prop,
-                                    const planning_scene::PlanningScene *ps);
+                                    const planning_scene::PlanningScene*ps);
 
 void fillFrameList(rviz::EditableEnumProperty& property,
                    const planning_scene::PlanningScene& scene);

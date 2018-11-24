@@ -38,27 +38,32 @@
 #include "frame_selector.h"
 #include "move_group_selector.h"
 #include "pose_stamped_selector.h"
+#include <moveit/planning_scene/planning_scene.h>
 #include <rviz/properties/property_tree_model.h>
 
 namespace moveit_rviz_plugin {
 
-rviz::PropertyTreeModel* factoryTest(moveit::task_constructor::PropertyMap& map) {
+rviz::PropertyTreeModel* factoryTest(moveit::task_constructor::PropertyMap& map,
+                                     const planning_scene::PlanningScene* scene,
+                                     rviz::DisplayContext* display_context) {
 	rviz::Property* root = new rviz::Property();
 	rviz::Property* p;
 
 	map.set("frame", "frame");
-	p = createFrameSelector("frame", map.property("frame"), nullptr);
+	p = createFrameSelector("frame", map.property("frame"), scene);
 	root->addChild(p);
 
 	map.set("group", "group");
-	p = createMoveGroupSelector("group", map.property("group"), nullptr);
+	p = createMoveGroupSelector("group", map.property("group"), scene ? scene->getRobotModel().get() : nullptr);
 	root->addChild(p);
 
 	map.set("pose", "pose");
-	p = new PoseStampedSelector("pose");
-	root->addChild(p);
+	auto ps = new PoseStampedSelector("pose");
+	ps->setPlanningScene(scene);
+	ps->setContext(display_context);
+	root->addChild(ps);
 
-	PropertyFactory::instance().addRemainingProperties(root, map);
+	PropertyFactory::instance().addRemainingProperties(root, map, scene, display_context);
 	return new rviz::PropertyTreeModel(root, nullptr);
 }
 

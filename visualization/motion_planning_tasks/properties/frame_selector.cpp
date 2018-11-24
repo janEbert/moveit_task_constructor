@@ -2,6 +2,7 @@
 #include <moveit/task_constructor/properties.h>
 #include <moveit/planning_scene/planning_scene.h>
 #include <rviz/properties/editable_enum_property.h>
+#include <QSignalBlocker>
 
 namespace moveit_rviz_plugin {
 
@@ -23,6 +24,9 @@ rviz::Property* createFrameSelector(const QString& name, moveit::task_constructo
 void fillFrameList(rviz::EditableEnumProperty& property,
                    const planning_scene::PlanningScene& scene)
 {
+	const std::string& current = property.getStdString();
+	QSignalBlocker block(&property);
+
 	property.clearOptions();
 
 	for (const std::string& name : scene.getWorld()->getObjectIds())
@@ -30,6 +34,8 @@ void fillFrameList(rviz::EditableEnumProperty& property,
 
 	for (const std::string& name : scene.getRobotModel()->getLinkModelNames())
 		property.addOptionStd(name);
+
+	property.setStdString(current);
 }
 
 } // end namespace moveit_rviz_plugin

@@ -2,6 +2,7 @@
 #include <moveit/task_constructor/properties.h>
 #include <moveit/robot_model/robot_model.h>
 #include <rviz/properties/editable_enum_property.h>
+#include <QSignalBlocker>
 
 namespace moveit_rviz_plugin {
 
@@ -23,10 +24,15 @@ rviz::Property* createMoveGroupSelector(const QString& name, moveit::task_constr
 void fillMoveGroupList(rviz::EditableEnumProperty& property,
                        const moveit::core::RobotModel& robot_model)
 {
+	const std::string& current = property.getStdString();
+	QSignalBlocker block(&property);
+
 	property.clearOptions();
 	for (const std::string& name : robot_model.getJointModelGroupNames())
 		property.addOptionStd(name);
 	property.sortOptions();
+
+	property.setStdString(current);
 }
 
 } // end namespace moveit_rviz_plugin

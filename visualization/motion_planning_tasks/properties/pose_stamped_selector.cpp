@@ -39,7 +39,7 @@ PoseStampedSelector::PoseStampedSelector(const QString& name,
 
 	marker_property_ = new rviz::EnumProperty("Marker Type", "Interactive frame",
 	                                          "Which type of interactive marker to use",
-	                                          this, SLOT(onMarkerTypeChanged()), this);
+	                                          this, SLOT(createInteractiveMarker()), this);
 	marker_property_->addOption("none", NONE);
 	marker_property_->addOption("static frame", FRAME);
 	marker_property_->addOption("interactive frame", IFRAME);
@@ -47,14 +47,34 @@ PoseStampedSelector::PoseStampedSelector(const QString& name,
 
 	marker_scale_property_ = new rviz::FloatProperty("Marker Scale", 0.2, QString(), marker_property_,
 	                                                 SLOT(onMarkerScaleChanged()), this);
+	marker_property_->hide();  // hide as long as we don't have a DisplayContext
 }
 
 PoseStampedSelector::~PoseStampedSelector() {}
 
+void PoseStampedSelector::setPlanningScene(const planning_scene::PlanningScene* scene)
+{
+	parent_frame_property_->clearOptions();
+	if (scene) fillFrameList(*parent_frame_property_, *scene);
+}
+
 void PoseStampedSelector::setContext(rviz::DisplayContext* context)
 {
-	context_ = context;
-	marker_node_ = context_->getSceneManager()->getRootSceneNode()->createChildSceneNode();
+	if (marker_node_) {
+		imarker_.reset();
+		context_->getSceneManager()->getRootSceneNode()->removeChild(marker_node_);
+		delete marker_node_;
+		marker_node_ = nullptr;
+	}
+	if ((context_ = context)) {
+		marker_node_ = context_->getSceneManager()->getRootSceneNode()->createChildSceneNode();
+		createInteractiveMarker();
+	}
+
+	if (marker_node_)
+		marker_property_->show();
+	else
+		marker_property_->hide();
 }
 
 static void updatePose(geometry_msgs::Pose &pose,
@@ -147,12 +167,12 @@ void PoseStampedSelector::addFrameControls(visualization_msgs::InteractiveMarker
 	im.controls.push_back(ctrl);
 }
 
-bool PoseStampedSelector::createInteractiveMarker(int type)
+void PoseStampedSelector::createInteractiveMarker()
 {
-	if (type == NONE) {
-		if (imarker_)
-			imarker_.reset();
-		return true;
+	int type = marker_property_->getOptionInt();
+	if (type == NONE || !marker_node_) {
+		if (imarker_) imarker_.reset();
+		return;
 	}
 
 	float scale = marker_scale_property_->getFloat();
@@ -161,7 +181,7 @@ bool PoseStampedSelector::createInteractiveMarker(int type)
 	im.name = "";
 	im.scale = scale;
 	if (!fillPoseStamped(im.header, im.pose))
-		return false;
+		return;
 
 	if (type == FRAME || type == IFRAME)
 		addFrameControls(im, 1.0, type == IFRAME);
@@ -183,7 +203,6 @@ bool PoseStampedSelector::createInteractiveMarker(int type)
 	imarker_->setShowDescription(false);
 
 	marker_property_->show();
-	return true;
 }
 
 bool PoseStampedSelector::fillPoseStamped(std_msgs::Header &header,
@@ -266,16 +285,11 @@ void PoseStampedSelector::onMarkerFeedback(visualization_msgs::InteractiveMarker
 	           translation_property_->getVector());
 }
 
-void PoseStampedSelector::onMarkerTypeChanged()
-{
-	createInteractiveMarker(marker_property_->getOptionInt());
-}
-
 void PoseStampedSelector::onMarkerScaleChanged()
 {
 	if (marker_scale_property_->getFloat() <= 0)
 		marker_scale_property_->setFloat(0.2);
-	createInteractiveMarker(marker_property_->getOptionInt());
+	createInteractiveMarker();
 }
 
 } // end namespace moveit_rviz_plugin

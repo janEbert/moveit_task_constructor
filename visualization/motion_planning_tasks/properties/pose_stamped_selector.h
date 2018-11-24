@@ -44,21 +44,21 @@ public:
 	                    QObject* receiver = nullptr);
 	~PoseStampedSelector();
 
+	void setPlanningScene(const planning_scene::PlanningScene*scene);
+	void setContext(rviz::DisplayContext* context);
+
 private Q_SLOTS:
 	void onRefFrameChanged();
 	void onFramesChanged();
 	void onTransformChanged();
 	void onMarkerFeedback(visualization_msgs::InteractiveMarkerFeedback &feedback);
-	void onMarkerTypeChanged();
 	void onMarkerScaleChanged();
+	void createInteractiveMarker();
 
 private:
-	void setContext(rviz::DisplayContext* context);
-
 	void add6DOFControls(visualization_msgs::InteractiveMarker &im);
 	void addFrameControls(visualization_msgs::InteractiveMarker &im,
 	                      double scale, bool interactive);
-	bool createInteractiveMarker(int type);
 	bool fillPoseStamped(std_msgs::Header &header, geometry_msgs::Pose &pose);
 
 	// rviz properties
@@ -70,10 +70,10 @@ private:
 
 	// interactive marker
 	boost::shared_ptr<rviz::InteractiveMarker> imarker_;
-	Ogre::SceneNode* marker_node_;
+	Ogre::SceneNode* marker_node_ = nullptr;
 	bool ignore_updates_ = false;
 
-	rviz::DisplayContext* context_;
+	rviz::DisplayContext* context_ = nullptr;
 };
 
 } // end namespace moveit_rviz_plugin
