@@ -1,5 +1,9 @@
+find_package(PkgConfig)
+pkg_check_modules(LIBYAML REQUIRED yaml-0.1)
+
 add_executable(${PROJECT_NAME}_yaml
-	subscribe_example.cpp
+	# subscribe_example.cpp
+	stage.cpp
 )
 # add_library(${PROJECT_NAME}_yaml
 # 	# ${PROJECT_INCLUDE}/yaml/
@@ -8,8 +12,10 @@ add_executable(${PROJECT_NAME}_yaml
 # )
 target_include_directories(${PROJECT_NAME}_yaml
 	PUBLIC ${catkin_INCLUDE_DIRS}
+	PUBLIC ${LIBYAML_INCLUDE_DIRS}
 )
-target_link_libraries(${PROJECT_NAME}_yaml ${catkin_LIBRARIES})
+# link_directories(${LIBYAML_LIBRARY_DIRS})
+target_link_libraries(${PROJECT_NAME}_yaml ${catkin_LIBRARIES} ${LIBYAML_LIBRARIES})
 # target_include_directories(${PROJECT_NAME}_yaml
 # )
 

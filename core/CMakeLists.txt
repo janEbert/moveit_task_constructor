@@ -12,10 +12,11 @@ find_package(catkin REQUIRED COMPONENTS
 	moveit_ros_planning_interface
 	moveit_task_constructor_msgs
 	roscpp
-	ros_type_introspection
-	topic_tools
 	visualization_msgs
 	rviz_marker_tools
+
+	ros_type_introspection
+	topic_tools
 )
 
 catkin_python_setup()
