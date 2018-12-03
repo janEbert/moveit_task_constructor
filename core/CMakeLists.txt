@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
 	moveit_ros_planning_interface
 	moveit_task_constructor_msgs
 	roscpp
+	rosbag
 	ros_type_introspection
 	topic_tools
 	visualization_msgs
