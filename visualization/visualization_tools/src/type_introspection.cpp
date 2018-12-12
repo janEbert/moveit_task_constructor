@@ -16,7 +16,9 @@ namespace moveit_rviz_plugin {
 
 rviz::Property* TreeConstructor::parseToTree(
         const std::vector<std::pair<std::string, ri::Variant>>& msgValues,
-        const std::string& name, const std::string& description, rviz::Property* old) {
+        const std::string& name,
+        const std::string& description,
+        rviz::Property* old) {
 	rviz::Property* root;
 	if (old) {
 		root = old;
@@ -39,7 +41,8 @@ rviz::Property* TreeConstructor::parseToTree(
 	return root;
 }
 
-void TreeConstructor::treeFromValue(const std::pair<std::string, ri::Variant>& value, rviz::Property* root, const size_t startIx) {
+void TreeConstructor::treeFromValue(const std::pair<std::string, ri::Variant>& value,
+                                    rviz::Property* root, const size_t startIx) {
 	size_t oldStartIx = startIx;
 	size_t newStartIx = value.first.find('/', startIx);
 	rviz::Property* parent = root;

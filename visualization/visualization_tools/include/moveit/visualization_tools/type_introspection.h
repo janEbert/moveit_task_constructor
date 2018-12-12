@@ -16,11 +16,14 @@ class TreeConstructor { // {{{1
 public:
 	static rviz::Property* parseToTree(
 	        const std::vector<std::pair<std::string, ri::Variant>>& msgValues,
-	        const std::string& name, const std::string& description, rviz::Property* old = 0);
+	        const std::string& name,
+	        const std::string& description,
+	        rviz::Property* old = 0);
 
 
 private:
-	static void treeFromValue(const std::pair<std::string, ri::Variant>& value, rviz::Property* root, const size_t startIx);
+	static void treeFromValue(const std::pair<std::string, ri::Variant>& value,
+	                          rviz::Property* root, const size_t startIx);
 
 	static rviz::Property* getOrCreateChild(const std::string& name, rviz::Property* parent);
 
@@ -46,13 +49,20 @@ private:
 class TypeIntrospector { // {{{1
 
 public:
-	/** Register the given message to the parser. */
+	/** Construct a type introspector registering a default message. */
+	TypeIntrospector() {
+		registerMsgType<moveit_task_constructor_msgs::Property>();
+	}
+
+	/** Register the given message to the parser.
+	Registering the same message twice is allowed. */
 	template <typename T>
 	inline void registerMsgType(const T& msg) {
 		registerMsgType<T>();
 	}
 
-	/** Register the given type to the parser. */
+	/** Register the given type to the parser.
+	Registering the same message twice is allowed. */
 	template <typename T>
 	inline void registerMsgType() {
 		parser.registerMessageDefinition(ros::message_traits::datatype<T>(),
@@ -63,7 +73,8 @@ public:
 	/** Return the root node of an `rviz::Property` tree constructed
 	from the given property message.
 	Optionally give a property to insert the tree under. */
-	inline rviz::Property* createTree(const moveit_task_constructor_msgs::Property& prop, rviz::Property* old = 0) {
+	inline rviz::Property* createTree(const moveit_task_constructor_msgs::Property& prop,
+	                                  rviz::Property* old = 0) {
 		const std::string& name = prop.type;
 		const ri::RenamedValues& flatMsg = extract(name, prop.value);
 		return TreeConstructor::parseToTree(flatMsg, name, prop.description, old);
@@ -73,7 +84,8 @@ public:
 private:
 	/** Return extracted values of the message contained in the given
 	property. */
-	inline ri::RenamedValues extractFromPropertyMsg(const moveit_task_constructor_msgs::Property& prop) {
+	inline ri::RenamedValues extractFromPropertyMsg(
+	        const moveit_task_constructor_msgs::Property& prop) {
 		return extract(prop.type, prop.value);
 	}
 
@@ -89,6 +101,7 @@ vector.
 	ri::RenamedValues extract(const std::string& name, std::vector<uint8_t>& sermsg);
 
 
+	// TODO make static? is it safe?
 	/** The parser containing all registered message types. */
 	ri::Parser parser;
 }; // }}}1
