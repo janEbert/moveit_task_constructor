@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.12)
 project(moveit_task_constructor_visualization)
 
+find_package(Boost REQUIRED COMPONENTS regex)  # TODO is this necessary?
+
 find_package(catkin REQUIRED COMPONENTS
 	moveit_core
 	moveit_ros_visualization
@@ -8,6 +10,9 @@ find_package(catkin REQUIRED COMPONENTS
 	moveit_task_constructor_msgs
 	roscpp
 	rviz
+	rosbag  # TODO remove after testing
+	ros_type_introspection
+	topic_tools
 )
 
 # definition needed for boost/math/constants/constants.hpp included by Ogre to compile

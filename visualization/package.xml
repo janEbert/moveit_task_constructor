@@ -16,6 +16,8 @@
 	<build_depend>agni_tf_tools</build_depend>
 	<build_depend>roscpp</build_depend>
 	<build_depend>rviz</build_depend>
+	<build_depend>ros_type_introspection</build_depend>
+	<build_depend>topic_tools</build_depend>
 
 	<run_depend>moveit_core</run_depend>
 	<run_depend>moveit_task_constructor_msgs</run_depend>
@@ -24,6 +26,8 @@
 	<run_depend>agni_tf_tools</run_depend>
 	<run_depend>roscpp</run_depend>
 	<run_depend>rviz</run_depend>
+	<run_depend>ros_type_introspection</run_depend>
+	<run_depend>topic_tools</run_depend>
 
 	<test_depend>rosunit</test_depend>
 	<test_depend>rostest</test_depend>

@@ -40,7 +40,6 @@ target_include_directories(${PROJECT_NAME}
 add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS})
 
 add_subdirectory(stages)
-add_subdirectory(type_introspection)
 
 install(TARGETS ${PROJECT_NAME}
 	ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
