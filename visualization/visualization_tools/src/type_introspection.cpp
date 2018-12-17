@@ -140,8 +140,6 @@ rviz::Property* TreeConstructor::createLeaf(const std::pair<std::string, ri::Var
 			return timeLeaf(value, parent, startIx);
 		case ri::DURATION:
 			return durationLeaf(value, parent, startIx);
-			// TODO
-			throw std::runtime_error("Unsupported type");
 		case ri::OTHER:
 			throw std::runtime_error("Unsupported type");
 	}
@@ -206,7 +204,7 @@ ri::RenamedValues TypeIntrospector::extract(const std::string& name, std::vector
 	std::cout << "deserialize success" << std::endl;
 	parser.applyNameTransform(name, msgContent, &msgValues);
 
-	// test
+	// TODO test
 	for (const auto v : msgValues) {
 		std::cout << v.first << std::endl;
 	}
