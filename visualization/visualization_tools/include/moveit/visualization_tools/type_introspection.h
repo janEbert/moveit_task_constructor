@@ -54,6 +54,13 @@ public:
 		registerMsgType<moveit_task_constructor_msgs::Property>();
 	}
 
+	// TODO use this, make constructor private?
+	/** Return a static instance to a type introspector. */
+	inline static TypeIntrospector& instance() {
+		static TypeIntrospector instance_;
+		return instance_;
+	}
+
 	/** Register the given message to the parser.
 	Registering the same message twice is allowed. */
 	template <typename T>

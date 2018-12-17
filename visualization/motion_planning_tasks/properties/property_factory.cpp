@@ -106,19 +106,9 @@ rviz::Property* PropertyFactory::create(const std::string& prop_name, mtc::Prope
 	return it->second(QString::fromStdString(prop_name), prop, scene, display_context);
 }
 
-rviz::Property* PropertyFactory::create(const moveit_task_constructor_msgs::Property& p, rviz::Property* old) const
+rviz::Property* PropertyFactory::create(const moveit_task_constructor_msgs::Property& p, rviz::Property* old)
 {
-	if (old) {  // reuse existing Property?
-		old->setDescription(QString::fromStdString(p.description));
-		old->setValue(QString::fromStdString(p.value));
-		return old;
-	} else {  // create new Property?
-		rviz::Property *result = new rviz::StringProperty(QString::fromStdString(p.name),
-		                                                  QString::fromStdString(p.value),
-		                                                  QString::fromStdString(p.description));
-		result->setReadOnly(true);
-		return result;
-	}
+	return type_introspector_.createTree(p, old);
 }
 
 rviz::PropertyTreeModel* factoryTest(moveit::task_constructor::PropertyMap& map,

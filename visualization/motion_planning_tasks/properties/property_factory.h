@@ -44,6 +44,7 @@
 
 #include <moveit/task_constructor/properties.h>
 #include <moveit_task_constructor_msgs/Property.h>
+#include <moveit/visualization_tools/type_introspection.h>
 
 namespace rviz {
 class Property;
@@ -86,7 +87,7 @@ public:
 	rviz::Property* create(const std::string &prop_name, moveit::task_constructor::Property &prop,
 	                       const planning_scene::PlanningScene*scene, rviz::DisplayContext *display_context) const;
 	/// create rviz::Property for given MTC property message
-	rviz::Property* create(const moveit_task_constructor_msgs::Property& p, rviz::Property* old) const;
+	rviz::Property* create(const moveit_task_constructor_msgs::Property& p, rviz::Property* old);
 
 	/// create PropertyTreeModel for given Stage
 	rviz::PropertyTreeModel* createPropertyTreeModel(moveit::task_constructor::Stage &stage,
@@ -106,6 +107,7 @@ public:
 private:
 	std::map<std::string, PropertyFactoryFunction> property_registry_;
 	std::map<std::type_index, TreeFactoryFunction> stage_registry_;
+	TypeIntrospector type_introspector_;
 
 	/// class is singleton
 	PropertyFactory();

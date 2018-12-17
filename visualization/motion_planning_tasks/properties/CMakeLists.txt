@@ -14,7 +14,7 @@ set(SOURCES
 add_library(${MOVEIT_LIB_NAME} SHARED ${SOURCES})
 
 target_link_libraries(${MOVEIT_LIB_NAME}
-	PUBLIC ${QT_LIBRARIES} ${catkin_LIBRARIES}
+	PUBLIC ${QT_LIBRARIES} ${catkin_LIBRARIES} moveit_task_visualization_tools
 	PRIVATE ${agni_tf_tools_LIBRARIES}
 )
 target_include_directories(${MOVEIT_LIB_NAME}
