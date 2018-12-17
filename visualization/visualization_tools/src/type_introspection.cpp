@@ -165,9 +165,9 @@ rviz::StringProperty* TreeConstructor::timeLeaf(const std::pair<std::string, ri:
                                                 rviz::Property* parent, const size_t startIx) {
 	ros::Time time = value.second.extract<ros::Time>();
 	std::ostringstream oss;
-	oss << time;
+	oss << time << " s";
 	return new rviz::StringProperty(QString::fromStdString(value.first.substr(startIx)),
-	                                QString::fromStdString(oss.str() + " secs"),
+	                                QString::fromStdString(oss.str()),
 	                                QString("Time in Seconds"), parent);
 }
 
@@ -175,9 +175,9 @@ rviz::StringProperty* TreeConstructor::durationLeaf(const std::pair<std::string,
                                                     rviz::Property* parent, const size_t startIx) {
 	ros::Duration duration = value.second.extract<ros::Duration>();
 	std::ostringstream oss;
-	oss << duration;
+	oss << duration << " s";
 	return new rviz::StringProperty(QString::fromStdString(value.first.substr(startIx)),
-	                                QString::fromStdString(oss.str() + " secs"),
+	                                QString::fromStdString(oss.str()),
 	                                QString("Duration in Seconds"), parent);
 }
 
