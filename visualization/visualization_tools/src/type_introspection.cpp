@@ -164,17 +164,21 @@ rviz::StringProperty* TreeConstructor::createStringLeaf(const std::pair<std::str
 rviz::StringProperty* TreeConstructor::timeLeaf(const std::pair<std::string, ri::Variant>& value,
                                                 rviz::Property* parent, const size_t startIx) {
 	ros::Time time = value.second.extract<ros::Time>();
+	std::ostringstream oss;
+	oss << time;
 	return new rviz::StringProperty(QString::fromStdString(value.first.substr(startIx)),
-	                                QString::fromStdString(std::to_string(time.toNSec()) + " nsecs"),
-	                                QString("Time in Nanoseconds"), parent);
+	                                QString::fromStdString(oss.str() + " secs"),
+	                                QString("Time in Seconds"), parent);
 }
 
 rviz::StringProperty* TreeConstructor::durationLeaf(const std::pair<std::string, ri::Variant>& value,
                                                     rviz::Property* parent, const size_t startIx) {
 	ros::Duration duration = value.second.extract<ros::Duration>();
+	std::ostringstream oss;
+	oss << duration;
 	return new rviz::StringProperty(QString::fromStdString(value.first.substr(startIx)),
-	                                QString::fromStdString(std::to_string(duration.toNSec()) + " nsecs"),
-	                                QString("Duration in Nanoseconds"), parent);
+	                                QString::fromStdString(oss.str() + " secs"),
+	                                QString("Duration in Seconds"), parent);
 }
 
 
